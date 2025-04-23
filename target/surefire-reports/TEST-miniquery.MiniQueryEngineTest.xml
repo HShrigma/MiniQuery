@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="miniquery.CSVReaderSchemaTest" time="0.034" tests="3" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="miniquery.MiniQueryEngineTest" time="0.007" tests="6" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -52,10 +52,10 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="testApplySchema_FallbackToStringIfNoSchema" classname="miniquery.CSVReaderSchemaTest" time="0.013"/>
-  <testcase name="testApplySchema_CorrectlyCastsValues" classname="miniquery.CSVReaderSchemaTest" time="0.001"/>
-  <testcase name="testApplySchema_BadConversionGracefulFallback" classname="miniquery.CSVReaderSchemaTest" time="0.004">
-    <system-err><![CDATA[[ERROR] Failed to parse key=age, value=not_a_number
-]]></system-err>
-  </testcase>
+  <testcase name="query_WithAlwaysTrueReturnsAll" classname="miniquery.MiniQueryEngineTest" time="0.001"/>
+  <testcase name="query_DoesNotModifyOriginalData" classname="miniquery.MiniQueryEngineTest" time="0.001"/>
+  <testcase name="testSelectSpecificColumns" classname="miniquery.MiniQueryEngineTest" time="0.001"/>
+  <testcase name="query_WithAlwaysFalseReturnsEmpty" classname="miniquery.MiniQueryEngineTest" time="0.001"/>
+  <testcase name="query_ReturnsOnlyMatchingRows" classname="miniquery.MiniQueryEngineTest" time="0.0"/>
+  <testcase name="testSelectAllColumns" classname="miniquery.MiniQueryEngineTest" time="0.0"/>
 </testsuite>

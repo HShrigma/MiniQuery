@@ -6,7 +6,8 @@ import org.junit.platform.suite.api.Suite;
 @Suite
 @SelectClasses({
         CSVReaderTest.class,
-        CSVReaderSchemaTest.class
+        CSVReaderSchemaTest.class,
+        MiniQueryEngineTest.class
 })
 public class MiniQueryTestSuite {
 
