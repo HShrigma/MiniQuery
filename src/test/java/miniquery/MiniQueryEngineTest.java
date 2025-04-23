@@ -153,20 +153,19 @@ public class MiniQueryEngineTest {
         Map<String, Object> joe = new HashMap<>();
         joe.put("name", "Joe");
         joe.put("age", null);
-        
+
         Map<String, Object> ana = new HashMap<>();
         ana.put("name", "Ana");
         ana.put("age", 27);
-        
+
         Map<String, Object> zed = new HashMap<>();
         zed.put("name", "Zed");
         zed.put("age", 45);
-        
+
         List<Map<String, Object>> table = List.of(ana, zed, joe);
-        
-    
+
         List<Map<String, Object>> result = MiniQueryEngine.orderBy(table, "age", true);
-    
+
         // Expect Joe (null) to come last
         assertEquals("Ana", result.get(0).get("name"));
         assertEquals("Zed", result.get(1).get("name"));
@@ -184,6 +183,54 @@ public class MiniQueryEngineTest {
         List<Map<String, Object>> result = MiniQueryEngine.orderBy(table, "age", true);
         assertNotNull(result);
         assertEquals(2, result.size());
+    }
+
+    @Test
+    void testDistinctRemovesDuplicates() {
+        List<Map<String, Object>> table = new ArrayList<>();
+
+        table.add(Map.of("name", "Ana", "age", 27));
+        table.add(Map.of("name", "Joe", "age", 30));
+        table.add(Map.of("name", "Ana", "age", 27)); // Duplicate
+        table.add(Map.of("name", "Joe", "age", 30)); // Duplicate
+
+        var result = MiniQueryEngine.distinct(table);
+
+        assertEquals(2, result.size());
+        assertTrue(result.stream().anyMatch(row -> row.get("name").equals("Ana")));
+        assertTrue(result.stream().anyMatch(row -> row.get("name").equals("Joe")));
+    }
+
+    @Test
+    void testDistinctIgnoresKeyOrder() {
+        List<Map<String, Object>> table = new ArrayList<>();
+
+        Map<String, Object> row1 = new LinkedHashMap<>();
+        row1.put("name", "Ana");
+        row1.put("age", 27);
+
+        Map<String, Object> row2 = new LinkedHashMap<>();
+        row2.put("age", 27); // Swapped order
+        row2.put("name", "Ana");
+
+        table.add(row1);
+        table.add(row2);
+
+        var result = MiniQueryEngine.distinct(table);
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void testDistinctWithNulls() {
+        List<Map<String, Object>> table = new ArrayList<>();
+        Map<String, Object> ana = new HashMap<>();
+        ana.put("name", "Ana");
+        ana.put("age", null);
+        table.add(ana);
+        table.add(ana);
+
+        var result = MiniQueryEngine.distinct(table);
+        assertEquals(1, result.size());
     }
 
 }

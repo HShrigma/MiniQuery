@@ -3,8 +3,10 @@ package miniquery.engine;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
 
 public class MiniQueryEngine {
@@ -107,6 +109,27 @@ public class MiniQueryEngine {
         sorted.sort(comparator);
 
         return sorted;
+    }
+
+    public static List<Map<String, Object>> distinct(List<Map<String, Object>> table) {
+        Set<String> seen = new HashSet<>();
+        List<Map<String, Object>> result = new ArrayList<>();
+
+        for (Map<String, Object> row : table) {
+            // Serialize row deterministically
+            StringBuilder keyBuilder = new StringBuilder();
+            row.keySet().stream().sorted().forEach(k -> {
+                keyBuilder.append(k).append("=").append(row.get(k)).append(";");
+            });
+            String key = keyBuilder.toString();
+
+            if (!seen.contains(key)) {
+                seen.add(key);
+                result.add(row);
+            }
+        }
+
+        return result;
     }
 
 }
